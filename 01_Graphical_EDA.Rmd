@@ -1,0 +1,70 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Packages
+```{r}
+pacman::p_load(tidyverse, HSAUR3)
+```
+
+# EDA
+
+"There is no statistical tootl is as powerful as a well chosen graph"
+Chambers, J.M., Cleveland, W.S., Tukey, P.A., Kleiner, B., s. f. Graphical Methods for Data Analysis (Wadsworth & Brooks/Cole Statistics/Probability Series), 1st edition. ed. Duxbury Press.
+
+```{r}
+data("USmelanoma")
+```
+
+```{r}
+glimpse(USmelanoma)
+```
+
+```{r}
+head(USmelanoma)
+```
+
+```{r}
+USmelanoma %>% 
+  ggplot(aes(x = mortality)) + 
+  geom_histogram(bins = 12)
+```
+
+```{r}
+USmelanoma %>% 
+  ggplot(aes(x = mortality)) + 
+  geom_histogram(bins = 12) + 
+  facet_grid(ocean~.)
+```
+
+```{r}
+USmelanoma %>% 
+  ggplot(aes(x = mortality, fill = ocean)) + 
+  geom_density(alpha= 0.5)
+```
+
+
+```{r}
+USmelanoma %>% 
+  ggplot(aes(x = latitude, y = mortality, color = ocean)) +
+  geom_point() + 
+  geom_smooth()
+```
+```{r}
+pacman::p_load(ggmap, maptools, maps, usmap)
+```
+
+
+```{r}
+head(USmelanoma)
+USmelanoma$state <- rownames(USmelanoma)
+```
+
+```{r}
+plot_usmap(data = USmelanoma, values = "mortality", lines = "red") + 
+  scale_fill_continuous(
+    low = "white", high = "red", name = "Mortality Melanona", label = scales::comma
+  ) + theme(legend.position = "right")
+```
+
